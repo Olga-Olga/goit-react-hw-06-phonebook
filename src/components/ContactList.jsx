@@ -1,10 +1,25 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeContact } from 'redux/slice';
 
-const ContactList = ({ paramList = [], onDelete }) => {
+const ContactList = () => {
+  const mylist = useSelector(state => state.contacts);
+  const filter = useSelector(state => state.filter);
+  const dispatch = useDispatch();
+
+  const filteredList = () => {
+    return mylist.filter(el =>
+      el.name.toLowerCase().includes(filter.toLowerCase())
+    );
+  };
+
+  const onDelete = id => {
+    dispatch(removeContact(id));
+  };
+
   return (
     <div>
-      {paramList.map(el => (
+      {filteredList().map(el => (
         <li key={el.id}>
           {el.name} {el.number}
           <span> </span>
@@ -18,14 +33,3 @@ const ContactList = ({ paramList = [], onDelete }) => {
 };
 
 export default ContactList;
-
-ContactList.propTypes = {
-  paramList: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ),
-  onDelete: PropTypes.func,
-};

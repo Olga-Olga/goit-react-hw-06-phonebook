@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { nanoid } from 'nanoid';
 import { useDispatch, useSelector } from 'react-redux';
+import { addContact, filterContacts } from 'redux/slice';
 
-export const ContactsForm = ({ handleAddContact }) => {
+export const ContactsForm = () => {
+  const mylist = useSelector(state => state.contacts);
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
   const dispatch = useDispatch();
+  // const store = useSelector();
+
+  // console.log(store);
+
   const handleChangeInput = ({ target }) => {
     const { name, value } = target;
-
     switch (name) {
       case 'name':
         setName(value);
@@ -17,16 +22,18 @@ export const ContactsForm = ({ handleAddContact }) => {
       case 'number':
         setNumber(value);
         break;
+      default:
+        return;
     }
   };
 
   const handleFormSubmit = event => {
     event.preventDefault();
-    const name = event.target.name.value;
-    const number = event.target.number.value;
-    handleAddContact({ name, number });
-    setName('');
-    setNumber('');
+    if (mylist.some(el => el.name === name)) {
+      alert('need unique name');
+      return;
+    }
+    dispatch(addContact({ id: nanoid(), name, number }));
   };
 
   return (
@@ -54,8 +61,4 @@ export const ContactsForm = ({ handleAddContact }) => {
       <button>Add contact</button>
     </form>
   );
-};
-
-ContactsForm.propTypes = {
-  handleAddContact: PropTypes.func.isRequired,
 };

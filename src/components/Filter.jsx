@@ -1,7 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { filterChanges } from 'redux/slice';
 
 const Filter = ({ value, onChangeFilterValue }) => {
+  const dispatch = useDispatch();
+  // useSelector();
+
+  onChangeFilterValue = e => {
+    dispatch(filterChanges(e.target.value));
+  };
+
   return (
     <div>
       <input onChange={onChangeFilterValue} value={value}></input>
@@ -9,8 +17,3 @@ const Filter = ({ value, onChangeFilterValue }) => {
   );
 };
 export default Filter;
-
-Filter.propTypes = {
-  value: PropTypes.string.isRequired,
-  onChangeFilterValue: PropTypes.func,
-};
