@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { nanoid } from 'nanoid';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact, filterContacts } from 'redux/slice';
+import { StyledInput, StyledButton, StyledForm } from './ContactForm.styled';
+import { DEFAULT_VERSION } from 'redux-persist/es/constants';
 
 export const ContactsForm = () => {
   const mylist = useSelector(state => state.contacts);
@@ -9,9 +11,6 @@ export const ContactsForm = () => {
   const [number, setNumber] = useState('');
 
   const dispatch = useDispatch();
-  // const store = useSelector();
-
-  // console.log(store);
 
   const handleChangeInput = ({ target }) => {
     const { name, value } = target;
@@ -37,9 +36,9 @@ export const ContactsForm = () => {
   };
 
   return (
-    <form onSubmit={handleFormSubmit}>
-      <h2>Name</h2>
-      <input
+    <StyledForm onSubmit={handleFormSubmit}>
+      <div>Name</div>
+      <StyledInput
         onChange={handleChangeInput}
         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
         type="text"
@@ -48,8 +47,8 @@ export const ContactsForm = () => {
         title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
         required
       />
-      <h2>number</h2>
-      <input
+      <div>Number</div>
+      <StyledInput
         onChange={handleChangeInput}
         type="tel"
         name="number"
@@ -58,7 +57,7 @@ export const ContactsForm = () => {
         title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
         required
       />
-      <button>Add contact</button>
-    </form>
+      <StyledButton>Add contact</StyledButton>
+    </StyledForm>
   );
 };
