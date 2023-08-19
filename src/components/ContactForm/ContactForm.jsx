@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { nanoid } from 'nanoid';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact, filterContacts } from 'redux/slice';
+import { addContact } from 'redux/slice';
 import { StyledInput, StyledButton, StyledForm } from './ContactForm.styled';
-import { DEFAULT_VERSION } from 'redux-persist/es/constants';
 
 export const ContactsForm = () => {
   const mylist = useSelector(state => state.contacts);
